@@ -1,3 +1,5 @@
+ComptePorteMonnaie.php :
+
 <?php
 
 namespace App;
@@ -6,16 +8,18 @@ class ComptePorteMonnaie {
 
     private string $owner;
     private int $balance;
+    private array $historique;
 
     public function __construct(string $owner) {
         $this->owner = $owner;
         $this->balance = 0;
+        $this->historique = [];
     }
 
     public function getBalance(): int {
         return $this->balance;
     }
-    
+
 
     public function ajouterArgent(int $montant): void {
 
@@ -37,10 +41,14 @@ class ComptePorteMonnaie {
         if ($montant > $this->balance) {
             throw new \RuntimeException("Fonds insuffisants pour ce retrait.");
         }
-        
+
         $this->balance -= $montant;
 
         $this->historique[] = ['type' => 'Retrait', 'montant' => $montant];
+    }
+
+    public function getHistoriqueTransactions(): array {
+        return $this->historique;
     }
 
 }
