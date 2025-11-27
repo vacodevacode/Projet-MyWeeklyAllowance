@@ -80,10 +80,3 @@ class ComptePorteMonnaieTest extends TestCase {
     }
 
 }
-
-
-
-
-
-
-
