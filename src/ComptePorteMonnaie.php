@@ -1,5 +1,3 @@
-ComptePorteMonnaie.php :
-
 <?php
 
 namespace App;
@@ -9,6 +7,7 @@ class ComptePorteMonnaie {
     private string $owner;
     private int $balance;
     private array $historique;
+    private int $allocationHebdomadaire = 1;
 
     public function __construct(string $owner) {
         $this->owner = $owner;
@@ -19,7 +18,7 @@ class ComptePorteMonnaie {
     public function getBalance(): int {
         return $this->balance;
     }
-
+    
 
     public function ajouterArgent(int $montant): void {
 
@@ -41,7 +40,7 @@ class ComptePorteMonnaie {
         if ($montant > $this->balance) {
             throw new \RuntimeException("Fonds insuffisants pour ce retrait.");
         }
-
+        
         $this->balance -= $montant;
 
         $this->historique[] = ['type' => 'Retrait', 'montant' => $montant];
@@ -51,4 +50,26 @@ class ComptePorteMonnaie {
         return $this->historique;
     }
 
+    public function definirAllocationHebdomadaire(int $montant): void {
+        if ($montant < 0) {
+            throw new \InvalidArgumentException("L'allocation hebdomadaire doit être un montant positif.");
+        }
+
+        $this->allocationHebdomadaire = $montant;
+    }
+    
+    public function AppliquerAllocationHebdomadaire(int $montant): void {
+
+        if ($montant < 0) {
+            throw new \InvalidArgumentException("L'allocation hebdomadaire doit être un montant positif.");
+        }
+
+        $this->allocationHebdomadaire = $montant;
+
+    }
+
+    public function recevoirAllocationHebdomadaire(): void {
+        $this->balance += $this->allocationHebdomadaire;
+        $this->historique[] = ['type' => 'Allocation Hebdomadaire', 'montant' => $this->allocationHebdomadaire];
+    }
 }
